@@ -301,8 +301,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <Building className="w-3.5 h-3.5" />
-            <span>Parties & Logo</span>
+            <Building className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">Parties & Logo</span>
+            <span className="sm:hidden">Parties</span>
           </button>
           <button
             onClick={() => setActiveTab('items')}
@@ -312,10 +313,11 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[10px] inline-flex items-center justify-center font-bold">
+            <span className="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[10px] inline-flex items-center justify-center font-bold shrink-0">
               {data.items.length}
             </span>
-            <span>Items & Taxes</span>
+            <span className="hidden sm:inline">Items & Taxes</span>
+            <span className="sm:hidden">Items</span>
           </button>
           <button
             onClick={() => setActiveTab('payment')}
@@ -325,8 +327,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <CreditCard className="w-3.5 h-3.5" />
-            <span>Payment & Sign</span>
+            <CreditCard className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">Payment & Sign</span>
+            <span className="sm:hidden">Pay & Sign</span>
           </button>
         </div>
       </div>

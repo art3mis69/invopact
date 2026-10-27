@@ -324,7 +324,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col text-slate-800 dark:text-slate-100 transition-colors">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-slate-100 dark:bg-slate-950 flex flex-col text-slate-800 dark:text-slate-100 transition-colors">
       {/* Client View Notification Banner */}
       {isClientView && (
         <div className="no-print bg-indigo-600 text-white text-xs py-2 px-4 flex items-center justify-between">
@@ -366,11 +366,11 @@ export function App() {
       />
 
       {/* Main Split-Screen Workspace */}
-      <main className="flex-1 max-w-[1536px] w-full mx-auto p-2 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start pb-20 lg:pb-6">
+      <main className="flex-1 max-w-[1536px] w-full min-w-0 mx-auto p-2 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start pb-24 lg:pb-6 overflow-x-hidden">
         {/* Left Column: Form Controls (hidden on mobile if in preview tab, or if in shared client view) */}
         {!isClientView && (
           <section
-            className={`no-print lg:col-span-5 2xl:col-span-5 ${
+            className={`no-print lg:col-span-5 2xl:col-span-5 w-full min-w-0 max-w-full ${
               mobileTab === 'editor' ? 'block' : 'hidden lg:block'
             } lg:h-[calc(100vh-5.5rem)] lg:sticky lg:top-18`}
           >
@@ -400,7 +400,7 @@ export function App() {
             isClientView ? 'lg:col-span-12' : 'lg:col-span-7 2xl:col-span-7'
           } ${
             !isClientView && mobileTab === 'editor' ? 'hidden lg:flex' : 'flex'
-          } bg-studio-desk rounded-2xl border border-slate-300/60 dark:border-slate-800/80 p-2 sm:p-5 lg:p-8 justify-center min-h-[calc(100vh-5.5rem)] transition-colors overflow-x-auto`}
+          } w-full min-w-0 max-w-full bg-studio-desk rounded-2xl border border-slate-300/60 dark:border-slate-800/80 p-2 sm:p-5 lg:p-8 justify-center min-h-[calc(100vh-5.5rem)] transition-colors overflow-x-auto`}
         >
           {activeType === 'invoice' ? (
             <InvoicePreview data={invoice} />

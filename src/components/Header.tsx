@@ -17,6 +17,7 @@ import {
   Smartphone,
   FileJson,
   Upload,
+  MoreVertical,
 } from 'lucide-react';
 import type { DocumentType } from '../types';
 import type { Theme } from '../utils/storage';
@@ -63,6 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [saveNotice, setSaveNotice] = useState(false);
   const [shareNotice, setShareNotice] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const jsonInputRef = useRef<HTMLInputElement>(null);
 
@@ -146,16 +148,16 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-1 sm:gap-2">
-          {/* Document Tools (New, Demo, Profile, Library) */}
-          <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-100/70 dark:bg-slate-800/60 p-0.5 sm:p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          {/* Desktop Document Tools (New, Demo, Profile, Library) */}
+          <div className="hidden md:flex items-center gap-0.5 sm:gap-1 bg-slate-100/70 dark:bg-slate-800/60 p-0.5 sm:p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
             <button
               onClick={onNewDoc}
               title="Create a new blank document"
               className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 px-2 py-1.5 rounded-lg transition-colors cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-              <span className="hidden md:inline">New</span>
+              <span>New</span>
             </button>
 
             <button
@@ -172,13 +174,13 @@ export const Header: React.FC<HeaderProps> = ({
                   isDemoActive ? 'text-amber-600 dark:text-amber-400 fill-amber-500' : 'text-amber-500'
                 }`}
               />
-              <span className="hidden md:inline">{isDemoActive ? 'Clear Demo' : 'Demo'}</span>
+              <span>{isDemoActive ? 'Clear Demo' : 'Demo'}</span>
             </button>
 
             <button
               onClick={onOpenProfile}
               title="Edit your business profile and default payment info"
-              className="hidden lg:flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 px-2 py-1.5 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 px-2 py-1.5 rounded-lg transition-colors cursor-pointer"
             >
               <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
               <span>Profile</span>
@@ -190,7 +192,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="relative flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 px-2 py-1.5 rounded-lg transition-colors cursor-pointer"
             >
               <FolderOpen className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400 shrink-0" />
-              <span className="hidden sm:inline">Library</span>
+              <span>Library</span>
               {savedCount > 0 && (
                 <span className="bg-indigo-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                   {savedCount}
@@ -199,22 +201,22 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Quick Actions: Save & Share */}
-          <div className="flex items-center gap-0.5 sm:gap-1">
+          {/* Desktop Quick Actions: Save & Share */}
+          <div className="hidden md:flex items-center gap-1">
             <button
               onClick={handleSaveClick}
               title="Save document locally in browser"
-              className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 px-2 sm:px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-2xs"
+              className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-2xs"
             >
               {saveNotice ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-emerald-700 dark:text-emerald-400 font-semibold hidden sm:inline">Saved</span>
+                  <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Saved</span>
                 </>
               ) : (
                 <>
                   <Save className="w-3.5 h-3.5 text-slate-500" />
-                  <span className="hidden md:inline">Save</span>
+                  <span>Save</span>
                 </>
               )}
             </button>
@@ -222,28 +224,111 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={handleShareClick}
               title="Copy instant client web view link (zero backend)"
-              className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 px-2 sm:px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-2xs"
+              className="flex items-center gap-1 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-2xs"
             >
               {shareNotice ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-emerald-700 dark:text-emerald-400 font-semibold hidden sm:inline">Copied</span>
+                  <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Copied</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-3.5 h-3.5 text-slate-500" />
-                  <span className="hidden md:inline">Share</span>
+                  <span>Share</span>
                 </>
               )}
             </button>
           </div>
 
-          {/* PWA Offline App Install Button */}
+          {/* Mobile-Only Action Group: Library Pill + More Dropdown */}
+          <div className="flex md:hidden items-center gap-1">
+            <button
+              onClick={onOpenSavedDocs}
+              title="Open saved library"
+              className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 cursor-pointer shadow-2xs"
+            >
+              <FolderOpen className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+              {savedCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {savedCount}
+                </span>
+              )}
+            </button>
+
+            <div className="relative">
+              <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="flex items-center justify-center w-8 h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 cursor-pointer shadow-2xs"
+                aria-label="More options"
+              >
+                <MoreVertical className="w-4 h-4" />
+              </button>
+
+              {showMobileMenu && (
+                <div
+                  className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl py-1.5 z-50 text-xs animate-in fade-in zoom-in-95 duration-100"
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <button
+                    onClick={onNewDoc}
+                    className="w-full px-3.5 py-2 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 font-medium cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4 text-slate-500" />
+                    <span>New Blank Document</span>
+                  </button>
+
+                  <button
+                    onClick={onToggleDemo}
+                    className="w-full px-3.5 py-2 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 font-medium cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4 text-amber-500" />
+                    <span>{isDemoActive ? 'Clear Demo Data' : 'Load Demo Data'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleSaveClick}
+                    className="w-full px-3.5 py-2 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 font-medium cursor-pointer border-t border-slate-100 dark:border-slate-800"
+                  >
+                    <Save className="w-4 h-4 text-emerald-500" />
+                    <span>Save Current Draft</span>
+                  </button>
+
+                  <button
+                    onClick={handleShareClick}
+                    className="w-full px-3.5 py-2 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 font-medium cursor-pointer"
+                  >
+                    <Share2 className="w-4 h-4 text-indigo-500" />
+                    <span>Copy Client Share Link</span>
+                  </button>
+
+                  <button
+                    onClick={onOpenProfile}
+                    className="w-full px-3.5 py-2 text-left text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2.5 font-medium cursor-pointer border-t border-slate-100 dark:border-slate-800"
+                  >
+                    <Building2 className="w-4 h-4 text-slate-500" />
+                    <span>Business Profile</span>
+                  </button>
+
+                  {deferredPrompt && (
+                    <button
+                      onClick={handleInstallClick}
+                      className="w-full px-3.5 py-2 text-left text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 flex items-center gap-2.5 font-semibold cursor-pointer border-t border-slate-100 dark:border-slate-800"
+                    >
+                      <Smartphone className="w-4 h-4" />
+                      <span>Install App on Device</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* PWA Offline App Install Button (Desktop) */}
           {deferredPrompt && (
             <button
               onClick={handleInstallClick}
               title="Install InvoPact as a standalone mobile/desktop app"
-              className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 border border-indigo-200 dark:border-indigo-800 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
+              className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 border border-indigo-200 dark:border-indigo-800 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
             >
               <Smartphone className="w-3.5 h-3.5" />
               <span>Install App</span>
@@ -277,7 +362,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-black dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 px-3 sm:px-3.5 py-1.5 rounded-lg shadow-sm transition-all active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-black dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 px-2.5 sm:px-3.5 py-1.5 rounded-lg shadow-sm transition-all active:scale-95 cursor-pointer shrink-0"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Export</span>
