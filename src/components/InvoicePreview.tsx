@@ -20,12 +20,12 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data }) => {
     : null;
 
   return (
-    <div className="flex flex-col items-center p-2 sm:p-4 overflow-x-auto w-full">
+    <div className="flex flex-col items-center p-1 sm:p-4 overflow-x-auto w-full">
       {/* A4 Sheet Container - strictly white with dark text regardless of dark mode */}
       <div
         id="invoice-preview-sheet"
-        className="relative overflow-hidden print-container bg-white text-slate-900 shadow-xl rounded-lg w-full max-w-[210mm] min-h-[297mm] print:min-h-0 print:h-auto print:max-w-none print:shadow-none print:border-none p-6 sm:p-10 print:p-0 flex flex-col justify-between border border-slate-200 transition-all select-text"
-        style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}
+        className="relative overflow-hidden print-container bg-white text-slate-900 paper-elevation rounded-xl w-full max-w-[210mm] min-h-[297mm] print:min-h-0 print:h-auto print:max-w-none print:shadow-none print:border-none p-6 sm:p-10 print:p-0 flex flex-col justify-between border border-slate-200/90 ring-1 ring-slate-900/5 transition-all select-text"
+        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif' }}
       >
         {/* Subtle Background Watermark (Optional) */}
         {data.watermark && data.watermark !== 'none' && (
@@ -416,17 +416,17 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ data }) => {
             </div>
           )}
 
-          <div className="pt-1 text-center text-[10px] text-slate-400">
+          <div className="pt-2 text-center text-[10px] text-slate-400 font-medium tracking-wide">
             Generated via InvoPact • Professional & Frictionless Invoicing
           </div>
         </div>
       </div>
 
       {/* Screen-only A4 Fit Indicator */}
-      <div className="no-print mt-3.5 text-center text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center gap-2">
+      <div className="no-print mt-4 text-center text-[11px] text-slate-600 dark:text-slate-400 flex items-center justify-center gap-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 px-3.5 py-1.5 rounded-full shadow-2xs">
         <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span className="font-medium">Single-Sheet A4 Fit Guaranteed</span>
-        <span className="text-slate-400 dark:text-slate-500">• Ready for Print or PDF Export</span>
+        <span className="font-semibold text-slate-800 dark:text-slate-200">A4 Single-Sheet Calibrated</span>
+        <span className="text-slate-400 dark:text-slate-500 hidden sm:inline">• Crisp Vector Print & PDF</span>
       </div>
     </div>
   );

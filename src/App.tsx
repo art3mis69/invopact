@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Edit3, Eye } from 'lucide-react';
 import type {
   DocumentType,
   InvoiceData,
@@ -39,6 +40,7 @@ export function App() {
   const [activeType, setActiveType] = useState<DocumentType>('invoice');
   const [theme, setTheme] = useState<Theme>(getSavedTheme);
   const [isClientView, setIsClientView] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'editor' | 'preview'>('editor');
 
   // Initialize with clean blank canvas prefilled only with user's saved business profile (if any)
   const [invoice, setInvoice] = useState<InvoiceData>(() => {
@@ -364,10 +366,14 @@ export function App() {
       />
 
       {/* Main Split-Screen Workspace */}
-      <main className="flex-1 max-w-[1536px] w-full mx-auto p-3 sm:p-5 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
-        {/* Left Column: Form Controls (hidden if in shared client view) */}
+      <main className="flex-1 max-w-[1536px] w-full mx-auto p-2 sm:p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start pb-20 lg:pb-6">
+        {/* Left Column: Form Controls (hidden on mobile if in preview tab, or if in shared client view) */}
         {!isClientView && (
-          <section className="no-print lg:col-span-5 2xl:col-span-5 h-[calc(100vh-6.5rem)] sticky top-20">
+          <section
+            className={`no-print lg:col-span-5 2xl:col-span-5 ${
+              mobileTab === 'editor' ? 'block' : 'hidden lg:block'
+            } lg:h-[calc(100vh-5.5rem)] lg:sticky lg:top-18`}
+          >
             {activeType === 'invoice' ? (
               <InvoiceForm
                 data={invoice}
@@ -388,11 +394,13 @@ export function App() {
           </section>
         )}
 
-        {/* Right Column: Live A4 Document Canvas */}
+        {/* Right Column: Studio Drafting Desk Canvas */}
         <section
           className={`${
             isClientView ? 'lg:col-span-12' : 'lg:col-span-7 2xl:col-span-7'
-          } bg-slate-200/60 dark:bg-slate-900/80 rounded-2xl border border-slate-300/80 dark:border-slate-800/80 p-2 sm:p-4 min-h-[calc(100vh-6.5rem)] flex justify-center shadow-inner transition-colors`}
+          } ${
+            !isClientView && mobileTab === 'editor' ? 'hidden lg:flex' : 'flex'
+          } bg-studio-desk rounded-2xl border border-slate-300/60 dark:border-slate-800/80 p-2 sm:p-5 lg:p-8 justify-center min-h-[calc(100vh-5.5rem)] transition-colors overflow-x-auto`}
         >
           {activeType === 'invoice' ? (
             <InvoicePreview data={invoice} />
@@ -401,6 +409,34 @@ export function App() {
           )}
         </section>
       </main>
+
+      {/* Mobile Floating View Selector (PWA-Optimized bottom bar) */}
+      {!isClientView && (
+        <div className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 bg-slate-900/90 dark:bg-slate-950/95 backdrop-blur-xl text-white p-1 rounded-full shadow-2xl border border-white/15 flex items-center gap-1 text-xs font-semibold animate-in fade-in slide-in-from-bottom-3">
+          <button
+            onClick={() => setMobileTab('editor')}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all cursor-pointer ${
+              mobileTab === 'editor'
+                ? 'bg-white text-slate-900 shadow-sm font-bold'
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Editor</span>
+          </button>
+          <button
+            onClick={() => setMobileTab('preview')}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all cursor-pointer ${
+              mobileTab === 'preview'
+                ? 'bg-white text-slate-900 shadow-sm font-bold'
+                : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span>A4 Document</span>
+          </button>
+        </div>
+      )}
 
       {/* Modals */}
       <BusinessProfileModal

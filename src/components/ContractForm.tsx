@@ -198,7 +198,6 @@ export const ContractForm: React.FC<ContractFormProps> = ({
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Accent:</span>
             <ColorPicker
               selectedColor={data.accentColor}
               onChange={(hex) => onChange({ ...data, accentColor: hex })}
